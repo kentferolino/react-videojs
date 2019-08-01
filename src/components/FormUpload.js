@@ -13,7 +13,7 @@ const buttonStyle = {
   padding: '5px 10px',
 }
 
-const FormUpload = ({ uploadFileAction, uploadedFiles }) => {
+const FormUpload = ({ uploadFileAction, uploadedFiles, error }) => {
 
   const [file, setFile] = useState();
 
@@ -28,8 +28,15 @@ const FormUpload = ({ uploadFileAction, uploadedFiles }) => {
     setFile(e.target.files[0]);
   }
 
+  const errorStyle = {
+    background: '#c51244',
+    padding: '10px',
+    borderRadius: 0,
+  }
+
   return (
     <div>
+      {error && <div style={errorStyle}>{error}</div>}
       <div>
         <form onSubmit={handleSubmit}>
           <label>
@@ -43,7 +50,8 @@ const FormUpload = ({ uploadFileAction, uploadedFiles }) => {
 }
 
 const mapStateToProps = state => ({
-  uploadedFiles: state.uploads.files
+  uploadedFiles: state.uploads.files,
+  error: state.uploads.error
 });
 
 export default connect(
