@@ -29,7 +29,7 @@ const Playback = ({ uploadedFiles }) => {
       </div>
       <div style={{ padding: '20px' }}>
         Uploaded Video:
-        <VideoPlayer autoplay={true} controls={true} sources={videos} />
+        {videos.length > 0 && <VideoPlayer autoplay={true} controls={true} sources={videos} key={`videos-key-${videos.length}`} />}
       </div>
       <div style={{ padding: '20px' }}>
         Hard coded Video:
