@@ -13,10 +13,6 @@ const Playback = ({ uploadedFiles, loading }) => {
   const sampleSource = [
     {
       "type": "video/mp4",
-      "src": "https://subterra-practice-task.s3.ap-southeast-2.amazonaws.com/kent3.mp4"
-    },
-    {
-      "type": "video/mp4",
       "src": "https://subterra-practice-task.s3.ap-southeast-2.amazonaws.com/kent1.mp4"
     },
   ]
@@ -30,6 +26,7 @@ const Playback = ({ uploadedFiles, loading }) => {
       <div style={{ padding: '20px' }}>
         Uploaded Video:
         {(videos.length > 0 && !loading) && <VideoPlayer autoplay={true} controls={true} sources={videos} key={`videos-key-${videos.length}`} />}
+        {loading && <div style={{ padding: '20px' }}>Uploading video...<div className="loader" /> </div>}
       </div>
       <div style={{ padding: '20px' }}>
         Hard coded Video:

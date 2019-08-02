@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { UPLOAD_FILE, UPLOAD_LOADING, UPLOAD_SUCCESS, UPLOAD_FAIL, GET_FILES } from '../actions/types';
+import { UPLOAD_LOADING, UPLOAD_SUCCESS, UPLOAD_FAIL } from '../actions/types';
 
 const initialState = {
   files: [],

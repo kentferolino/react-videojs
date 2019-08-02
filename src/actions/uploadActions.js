@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { UPLOAD_FILE, UPLOAD_LOADING, UPLOAD_SUCCESS, UPLOAD_FAIL, GET_FILES } from './types';
+import { UPLOAD_LOADING, UPLOAD_SUCCESS, UPLOAD_FAIL } from './types';
 
 export const setUploadFileLoading = () => {
   return {
@@ -10,7 +10,7 @@ export const setUploadFileLoading = () => {
 export const uploadFile = (file) => async (dispatch) => {
   dispatch({ type: UPLOAD_LOADING });
 
-  const responseFrom = await axios.post("https://ntgjgbhu8d.execute-api.ap-southeast-2.amazonaws.com/dev/requestUploadURL", { "name": file.name })
+  await axios.post("https://ntgjgbhu8d.execute-api.ap-southeast-2.amazonaws.com/dev/requestUploadURL", { "name": file.name })
     .then(res => {
       const { data } = res;
       var options = {
