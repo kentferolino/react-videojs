@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import VideoPlayer from './VideoPlayer';
 
-const Playback = ({ uploadedFiles }) => {
+const Playback = ({ uploadedFiles, loading }) => {
 
   const [videos, setVideos] = useState([]);
 
@@ -29,7 +29,7 @@ const Playback = ({ uploadedFiles }) => {
       </div>
       <div style={{ padding: '20px' }}>
         Uploaded Video:
-        {videos.length > 0 && <VideoPlayer autoplay={true} controls={true} sources={videos} key={`videos-key-${videos.length}`} />}
+        {(videos.length > 0 && !loading) && <VideoPlayer autoplay={true} controls={true} sources={videos} key={`videos-key-${videos.length}`} />}
       </div>
       <div style={{ padding: '20px' }}>
         Hard coded Video:
@@ -40,7 +40,8 @@ const Playback = ({ uploadedFiles }) => {
 }
 
 const mapStateToProps = state => ({
-  uploadedFiles: state.uploads.files
+  uploadedFiles: state.uploads.files,
+  loading: state.uploads.loading
 });
 
 export default connect(

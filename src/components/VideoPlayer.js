@@ -5,15 +5,14 @@ export default (props) => {
   let videoRef = useRef(null)
 
   useEffect(() => {
-    const player = videojs(videoRef.current, props).ready();
+    const player = videojs(videoRef.current, { autoplay: true, controls: true }, () => {
+      player.src(props.sources[props.sources.length - 1].src);
+    });
 
     return () => {
-      if (player) {
-        player.dispose()
-      }
-    }
-  }, [props])
-
+      player.dispose();
+    };
+  }, []);
 
   return (
     <div>
