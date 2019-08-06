@@ -1,4 +1,5 @@
 import axios from 'axios';
+import AWS from 'aws-sdk';
 import { UPLOAD_LOADING, UPLOAD_SUCCESS, UPLOAD_FAIL } from './types';
 
 export const setUploadFileLoading = () => {
@@ -9,43 +10,25 @@ export const setUploadFileLoading = () => {
 
 export const uploadFile = (file) => async (dispatch) => {
   dispatch({ type: UPLOAD_LOADING });
+  const s3 = new AWS.S3({
+    apiVersion: '2006-03-01',
+    accessKeyId: process.env.REACT_APP_ACCESS_ID,
+    secretAccessKey: process.env.REACT_APP_SECRET_ACCESS,
+    region: 'ap-southeast-2'
+  });
+  const formData = new FormData();
+  formData.append("file", file);
 
-  await axios.post("https://ntgjgbhu8d.execute-api.ap-southeast-2.amazonaws.com/dev/requestUploadURL", { "name": file.name })
-    .then(res => {
-      const { data } = res;
-      var config = {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      };
-      const formData = new FormData();
-
-      const bucketUrl = `${data.uploadURL.split(file.name)[0]}/${file.name}?uploads`;
-
-      const params = data.uploadURL.split('?')[1];
-      const fields = params.split('&');
-
-      formData.append("key", `uploads/${file.name}`);
-      formData.append("bucket", "subterra-practice-task");
-
-      fields.forEach(field => {
-        const keyValue = field.split('=');
-        const key = keyValue[0];
-        const value = keyValue[1];
-        formData.append(key, decodeURIComponent(value));
-      });
-      formData.append("file", file);
-
-      return axios.post(`https://subterra-practice-task.s3.ap-southeast-2.amazonaws.com/${file.name}?uploads`, formData, config);
-    })
-    .then(function (result) {
-      console.log(result);
-      const { config: { url } } = result;
-      const bucketUrl = url.split(file.name)[0];
-      dispatch({ type: UPLOAD_SUCCESS, payload: { fileName: file.name, type: file.type, src: `${bucketUrl}${file.name}` } });
-    })
-    .catch(function (err) {
-      console.log(err);
+  const params = { Key: file.name, Bucket: "subterra-practice-task", Body: file };
+  var options = { partSize: 5 * 1024 * 1024, queueSize: 1 }
+  const upload = s3.upload(params, options);
+  upload.send(function (err, data) {
+    if (err) {
+      console.log('Error in upload =>', err);
       dispatch({ type: UPLOAD_FAIL, payload: "Failed to upload file." });
-    });
+    } else {
+      console.log('Success in upload =>', data);
+      dispatch({ type: UPLOAD_SUCCESS, payload: { fileName: data.Key, type: file.type, src: data.Location } });
+    }
+  });
 };
