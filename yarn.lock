@@ -3730,6 +3730,11 @@ etag@~1.8.1:
   resolved "https://registry.yarnpkg.com/etag/-/etag-1.8.1.tgz#41ae2eeb65efa62268aebfea83ac7d79299b0887"
   integrity sha1-Qa4u62XvpiJorr/qg6x9eSmbCIc=
 
+evaporate@^2.1.4:
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/evaporate/-/evaporate-2.1.4.tgz#44aa46a930347fdffe9027bae3bb2af71e7a3299"
+  integrity sha1-RKpGqTA0f9/+kCe647sq9x56Mpk=
+
 eventemitter3@^3.0.0:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-3.1.2.tgz#2d3d48f9c346698fce83a85d7d664e98535df6e7"
